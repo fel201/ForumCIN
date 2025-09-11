@@ -4,22 +4,7 @@ import querystring from 'querystring';
 let server = http.createServer(function (req, res) {
     const url = req.url;
     if (req.method == "POST") {
-
-        let body = '';
-
-        req.on('data', (chunk) => {
-            body += chunk.toString();
-        })
-        req.on('end', () => {
-            let parse = querystring.parse(body);
-            let stringText = parse;
-            console.log(stringText);
-            fs.readFile('templates/message.html', (err, data) => {
-                res.writeHead(200, {'Content-Type': 'text/html'});
-                res.write(data);
-                res.end();
-            })
-        })
+        
     }
     if(url === '/') {
         fs.readFile('templates/blog1.html', (err, data) => {
