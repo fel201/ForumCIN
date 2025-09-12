@@ -16,3 +16,4 @@ async function storeText() {
         body: JSON.stringify(value),
     })
 }
+

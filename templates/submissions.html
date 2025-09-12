@@ -5,31 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submissions</title>
     <style>
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
-    <div>
-        {% for item in items %} 
-            <button onclick="toggleContent({{ loop.index0 }})">Show Content</button>
-        {% endfor %}
-    </div>
-    
-    <div>
-        {% for item in items %}
-            <p id="item{{ loop.index0 }}"class="hidden">{{ item }}</p>
-            <br>
-        {% endfor %}
-    </div>
-
-    <script>
-        function toggleContent(id) {
-            const temp = document.getElementById("item"+id);
-            temp.classList.toggle("hidden");
-        }
-            
-    </script>
+    <h1 id="Teste"></h1>
+    <button onclick="teste()"></button>
+    <script src="submissions_script.js"></script>
 </body>
 </html>
