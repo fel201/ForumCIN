@@ -1,5 +1,5 @@
 async function getText() {
-    var response = await fetch('api/submissions/texts');
+    var response = await fetch('api/submissions/');
     var data = await response.json();
     for(let i = 0; i < data.length; i++) {
         let anchor = document.createElement('a');

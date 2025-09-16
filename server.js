@@ -44,7 +44,7 @@ app.get('/submissions/:commentId', (req, res) => {
 app.get('/submissions', (req, res) => {
     res.render('submissions.html'); 
 });
-app.get('api/submissions/texts', (req, res) => {
+app.get('/api/submissions/', (req, res) => {
     console.log(stored_titles);
     res.json(stored_titles);
 });
@@ -57,13 +57,12 @@ console.log(`Server running at http://${hostname}:${port}/`);
 
 
 
-//
-//app.get(`/submissions/:commentId`, (req, res) => {
-  //  const id_number = req.params.commentId;
-    //try {
-      //  res.send(stored_texts[id_number]);
-    //}
-    //catch {
-      //  res.send("n funciono mn");
-    //}
-//})
+// app.get(`/submissions/:commentId`, (req, res) => {
+//    const id_number = req.params.commentId;
+//     try {
+//        res.send(stored_texts[id_number]);
+//     }
+//     catch {
+//        res.send("n funciono mn");
+//     }
+// })
