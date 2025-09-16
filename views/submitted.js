@@ -8,7 +8,7 @@ setInterval(displayTime, 100);
 
 async function storeText() {
     value = document.getElementById("theText").value;
-    let data = await fetch('/textSubmitted', {
+    let data = await fetch('/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
