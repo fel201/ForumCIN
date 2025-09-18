@@ -13,9 +13,6 @@ app.engine('.html', ejs.__express);
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: true }));
 
-var stored_titles = [];
-var stored_texts = [];
-var text_string = '';
 
 
 app.get('/', (req, res) => {
@@ -36,8 +33,11 @@ app.get('/submissions/:commentId', (req, res) => {
     try {
         res.send(stored_texts[id_number]);
     }
+    // TO-DO: i should handle errors correctly by sending back
+    // the correct type of status depending on the type
+    // of problem xd
     catch {
-        res.send("N funciono mn");
+        res.status(500).send({ERROR: "server problem(or not)"})
     }
 })
 
@@ -59,7 +59,10 @@ app.get('/api/submissions/:commentId', (req, res) => {
         res.json({"Message": "Request Error"});
     }
 })
-app.delete('/submissions', (req, res) => {
+// TO-DO: Fix the comment deletion logic 
+// and also send a proper response message and status
+app.delete('/api/submissions/:deleteId', (req, res) => {
+    var delete_id = req.params.deleteId;
     console.log("Deu certo?");
     try {
         text_index = req.body;
@@ -69,7 +72,10 @@ app.delete('/submissions', (req, res) => {
         console.log("o texto nem existe mn");
     }
 });
-
+// redirect to success after receiving the form
+app.get('/success', (req, res) => {
+    res.render('message.html');
+}) 
 let port = 5000;
 let hostname = '127.0.0.1';
 app.listen(port, hostname, function() {
