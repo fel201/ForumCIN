@@ -25,15 +25,13 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: true }), express.json());
 
 
-var stored_titles = [];
-var stored_texts = [];
-var text_string = '';
 
 // main route '/'
 app.get('/', (req, res) => {
     res.render('blog1.html');
 });
 
+// submissions
 app.post('/api/submissions/', async (req,res) => {
     console.log(req.body);
     var title_string = req.body.title;
@@ -51,7 +49,6 @@ app.post('/api/submissions/', async (req,res) => {
     }
 }); 
 
-// submissions
 app.get('/submissions/:commentId', async (req, res) => {
     var id_number = req.params.commentId;
     try {
@@ -60,8 +57,11 @@ app.get('/submissions/:commentId', async (req, res) => {
         console.log(comment_information.rows[0].content);
         res.status(200).send(comment_information.rows[0].content);
     }
+    // TO-DO: i should handle errors correctly by sending back
+    // the correct type of status depending on the type
+    // of problem xd
     catch {
-        res.send("N funciono mn");
+        res.status(500).send({ERROR: "server problem(or not)"})
     }
 })
 app.get('/submissions', (req, res) => {
@@ -99,6 +99,8 @@ app.get('/api/submissions/:commentId', async (req, res) => {
         res.status(500).json({Error: "GET Request Failed"});
     }
 })
+// TO-DO: Fix the comment deletion logic 
+// and also send a proper response message and status
 app.delete('/api/submissions/:deleteId', (req, res) => {
     var delete_id = req.params.deleteId;
     console.log("Deu certo?");
@@ -109,7 +111,7 @@ app.delete('/api/submissions/:deleteId', (req, res) => {
         console.log("o texto nem existe mn");
     }
 });
-// redirect success
+// redirect to success after receiving the form
 app.get('/success', (req, res) => {
     res.render('message.html');
 }) 
