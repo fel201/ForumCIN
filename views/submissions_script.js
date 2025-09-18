@@ -24,11 +24,17 @@ async function getText() {
 setTimeout(getText);
 
 async function fdp() {
-    var delete_elements = []
+    var delete_elements = [];
+    var delete_url = [];
+    
     for(let i = 0; i < checkbox_array.length; i++) {
         if (checkbox_array[i].checked) {
-            delete_elements.push(i);
-        }
-    }
+            delete_url.push(`api/submissions/${i}`);
+            console.log(`api/submissions/${i}`);
+        };
+    };
+    delete_url.map(url => fetch(url, {
+        method: 'DELETE',
+    }));
 }
 

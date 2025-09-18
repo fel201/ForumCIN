@@ -4,16 +4,22 @@ async function displayTime() {
     const time = data.location.localtime;
     document.getElementById("timezoneId").innerText = time;
 }
-setInterval(displayTime, 100);
+setInterval(displayTime, 600000);
 
-async function storeText() {
-    value = document.getElementById("theText").value;
-    let data = await fetch('/', {
+document.getElementById("theText").addEventListener("submit", async e => {
+    e.preventDefault();
+    const title = e.target.titleInformation.value;
+    const text = e.target.textInformation.value;
+    const data = await fetch('api/submissions', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(value),
-    })
-}
+        body: JSON.stringify({
+            title: title,
+            text: text,
+        }),
+    });
+});
+
 
