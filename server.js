@@ -7,7 +7,7 @@ const { Pool } = pg;
 
 const pool = new Pool({
     user: 'postgres',
-    password: 'Felipetjs123!',
+    password: 'felipe0102',
     host: '127.0.0.1',
     port: 5432,
     database: 'Teste',
@@ -44,17 +44,21 @@ app.post('/api/submissions/', async (req,res) => {
         const query_submission = await pool.query(
             "INSERT INTO submissions (title, content) VALUES ($1, $2) RETURNING *",
             [title_string, text_string]);
+        res.status(200).json({request: "funciono mn"});
     }
     catch {
-        res.json("TERRIBLE!");
+        res.status(500).json({error: "POST Request Failed"});
     }
 }); 
 
 // submissions
-app.get('/submissions/:commentId', (req, res) => {
+app.get('/submissions/:commentId', async (req, res) => {
     var id_number = req.params.commentId;
     try {
-        res.send(stored_texts[id_number]);
+        const comment_information = await pool.query
+        ("SELECT content FROM submissions WHERE id = $1", [id_number]);
+        console.log(comment_information.rows[0].content);
+        res.status(200).send(comment_information.rows[0].content);
     }
     catch {
         res.send("N funciono mn");
@@ -69,7 +73,8 @@ app.get('/api/submissions', async (req, res) => {
     console.log("Triggered?");
     try {
         const all_submissions = await pool.query("SELECT * FROM submissions");
-        res.json(all_submissions.rows);
+        console.log(all_submissions.rows);
+        res.status(200).json(all_submissions.rows);
     }
     catch(err) {
         console.error(err);
@@ -80,11 +85,18 @@ app.get('/api/submissions/:commentId', async (req, res) => {
     var comment_id = req.params.commentId;
 
     try {
-        const submission = await pool.query(`SELECT * FROM submissions WHERE id = ${comment_id}`);
-        res.json(submission.rows);
+        const submission = await pool.query
+        ("SELECT * FROM submissions WHERE id = $1", [comment_id]);
+        res.status(200).json({
+            submission_data: {
+                title: submission.rows[0].title,
+                content: submission.rows[0].content,
+                id: submission.rows[0].id,
+            }
+        });
     }
     catch {
-        res.json({"Message": "Request Error"});
+        res.status(500).json({Error: "GET Request Failed"});
     }
 })
 app.delete('/api/submissions/:deleteId', (req, res) => {
