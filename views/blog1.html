@@ -4,15 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schizo Rambling</title>
+    <style>
+        body, html {
+            background-color: black;
+            height: 100%;
+            width: 100%;
+        }
+        #logoButao, .botoes {
+            display: flex;
+        }
+        .botoes {
+            display: flex;
+            margin-right: 20px;
+            font-size: large;
+            font-family: sans-serif !important;
+        }
+        .textBar {
+            background-color: gray;
+        }
+        #interfaceBotoes {
+            border: 1px solid fuchsia;
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            background-color: #211431 !important;
+        }
+        .botoes {
+            text-decoration: none;
+            color: gray;
+        }
+        .botoes:hover {
+            color: white;
+        }
+        h1 {
+            color: brown;
+        }
+        .text {
+            color:yellow;
+        }
+    </style>
 </head>
 <body>
+    <div id="interfaceBotoes">
+        <a href="/submissions"><img src="logos/logo_do_bagui.png" id="logoButao" alt="logoButao"></a>
+        <div class="botoes">
+            <a class="botoes" href="/submissions">Feedback</a>
+            <a class="botoes" href="/link">Regras</a>
+        </div>
+        
+    </div>
     <h1>Welcome to the Schizo Rambling Blog!</h1>
-    In this blog, you can post about anything!
+    <span class="text">In this blog, you can post about anything!</span>
     <h2 id="timezoneId"></h2>
     <form id="theText" method="post">
-        <textarea name="titleInformation"id="99"cols="20"rows="1" placeholder="Title"></textarea>
+        <textarea name="titleInformation"id="99"cols="20"rows="1" class="textBar placeholder="Title"></textarea>
         <br><br><br>
-        <textarea name="textInformation" id="100" cols="200" rows="50" placeholder="Ramble here!"></textarea>
+        <textarea name="textInformation" class="textBar" id="100" cols="200" rows="50" placeholder="Ramble here!"></textarea>
         <br>
         <input type="submit" placeholder="Submit" name="submitButton" id="101">
     </form>
