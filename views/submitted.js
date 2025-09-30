@@ -1,19 +1,26 @@
-async function displayTime() {
-    const request = await fetch('http://api.weatherapi.com/v1/current.json?key=5a0a631055c7426ab89194429251009&q=Brazil&aqi=no')
-    const data = await request.json();
-    const time = data.location.localtime;
-    document.getElementById("timezoneId").innerText = time;
-}
-setInterval(displayTime, 100);
-
-async function storeText() {
-    value = document.getElementById("theText").value;
-    let data = await fetch('/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(value),
-    })
-}
+document.getElementById("theText").addEventListener("submit", async e => {
+    e.preventDefault();
+    const title = e.target.titleInformation.value;
+    const text = e.target.textInformation.value;
+    try {
+        const data = await fetch('api/submissions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title,
+                text: text,
+            }),
+        });
+        if (!data.ok) {
+            throw new Error(`Server error: ${data.status}`);
+        }
+        console.log("Passou!");
+        window.location.href = "/success";
+    }
+    catch (err) {
+        console.log("Submission Failed", err);
+    }
+});
 
