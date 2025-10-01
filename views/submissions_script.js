@@ -11,11 +11,13 @@ async function getText() {
         document.body.appendChild(checkbox_array[i]);
 
         let anchor = document.createElement('a');
-        anchor.setAttribute('class', 'titulo');
-        anchor.setAttribute('id', `id${i}`);
-        anchor.setAttribute('href', `/submissions/${i}`);
-        anchor.innerHTML = `${data[i]}`;
-        document.body.appendChild(anchor);
+        anchor.setAttribute('class', 'title');
+        anchor.setAttribute('id', `id${data[i].id}`);
+        anchor.setAttribute('href', `/submissions/${data[i].id}`);
+        anchor.innerHTML = `${data[i].title}`;
+        // adding it inside the container
+        let container = document.getElementById("containerPosts");
+        container.appendChild(anchor);
         // adding the line break 
         let br = document.createElement('br');
         document.body.appendChild(br);

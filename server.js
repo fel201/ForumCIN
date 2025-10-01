@@ -2,6 +2,22 @@ import express from 'express'
 import { fileURLToPath } from 'url';
 import path from 'path'
 import ejs from 'ejs'
+<<<<<<< HEAD
+=======
+import pg from 'pg'
+import 'dotenv/config';
+const { Pool } = pg;
+
+
+const pool = new Pool({
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+});
+
+>>>>>>> 8bea064 (improve main page and add SupaBase PostgreSQL database)
 let app = express()
 // without this, we would
 // need to rename our index.html

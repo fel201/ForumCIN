@@ -24,3 +24,16 @@ document.getElementById("theText").addEventListener("submit", async e => {
     }
 });
 
+textarea_content = document.getElementById("text101");
+
+textarea_content.addEventListener("input", ()=> {
+    textarea_content.style.height = 'auto';
+    textarea_content.style.height = textarea_content.scrollHeight + 'px';
+});
+
+textarea_input = document.getElementById("title101");
+
+textarea_input.addEventListener("input", () => {
+    textarea_input.style.height = 'auto';
+    textarea_input.style.height = textarea_input.scrollHeight + 'px';
+});
