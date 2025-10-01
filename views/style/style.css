@@ -13,7 +13,7 @@ body, html {
     font-family: sans-serif !important;
 }
 .textBar {
-    background-color: gray;
+    background-color: black;
 }
 #interfaceBotoes {
     border: 1px solid fuchsia;
@@ -41,8 +41,29 @@ h1 {
     color:yellow;
 }
 #title101, #text101 {
-    border-radius: 5px;
+    border-radius: 10px;
     resize: none;
-    field-sizing: content;
-    overflow-y: hidden;
+    width: 800px;
+    vertical-align: text-bottom;
+    padding-top: 10px;
+    padding-left: 10px;
+    color: white;
+}
+form {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#postMessage {
+    position: relative;
+    left: 670px;
+}
+
+#submit101 {
+    border-radius: 3cap;
+    width: 60px;
+    height: 60px;
 }

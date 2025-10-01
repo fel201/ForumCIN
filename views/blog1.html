@@ -3,27 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schizo Rambling</title>
+    <title>Comente em ForumCIN</title>
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-    <div id="interfaceBotoes">
-        <a href="/submissions"><img src="logos/logo_do_bagui.png" id="logoButao" alt="logoButao"></a>
-        <div class="botoes">
-            <a class="botoes" href="/submissions">Feedback</a>
-            <a class="botoes" href="/link">Regras</a>
-        </div>
-        
-    </div>
-    <h1>Faça um Post!</h1>
+    <div id="mainInterface"></div>
+    <h1 id="postMessage">Faça um Post!</h1>
     <h2 id="timezoneId"></h2>
     <form id="theText" method="post" autocomplete="off">
         <textarea name="titleInformation"id="title101"cols="30"rows="3" placeholder="Title" class="textBar placeholder="Title"></textarea>
         <br><br><br>
         <textarea name="textInformation" class="textBar" id="text101" rows="8" cols="60" placeholder="Ramble here!"></textarea>
         <br>
-        <input type="submit" placeholder="Submit" name="submitButton" id="101">
+        <input type="submit" value="Post!" name="submitButton" id="submit101">
+        
     </form>
     <script src="submitted.js"></script>
+    <script src="renderInterface.js"></script>
 </body>
 </html>

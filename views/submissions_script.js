@@ -10,7 +10,9 @@ async function getText() {
         anchor.setAttribute('id', `id${data[i].id}`);
         anchor.setAttribute('href', `/submissions/${data[i].id}`);
         anchor.innerHTML = `${data[i].title}`;
-        document.body.appendChild(anchor);
+        // adding it inside the container
+        let container = document.getElementById("containerPosts");
+        container.appendChild(anchor);
         // adding the line break 
         let br = document.createElement('br');
         document.body.appendChild(br);
