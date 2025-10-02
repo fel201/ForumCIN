@@ -66,7 +66,16 @@ app.get('/api/submissions/:commentId', (req, res) => {
     var title = stored_titles[comment_id];
     var text = stored_texts[comment_id];
     try {
-        res.json( { [title]: text} );
+        const submission = await pool.query
+        ("SELECT * FROM submissions WHERE id = $1", [comment_id]);
+        res.status(200).json({
+            submission_data: {
+                title: submission.rows[0].title,
+                content: submission.rows[0].content,
+                id: submission.rows[0].id,
+                created_at: submission.rows[0].created_at,
+            }
+        });
     }
     catch {
         res.json({"Message": "Request Error"});

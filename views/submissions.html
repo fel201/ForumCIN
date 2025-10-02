@@ -4,47 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submissions</title>
-    <style>
-        .titulo {
-            border: 1px solid black;
-            border-radius: 5px;
-            display: inline-flex;
-            padding: 3px 5px;
-            width: 1200px;
-            flex-direction: column;
-        }
-        .titulo:hover {
-            background-color: red;
-            cursor:pointer;
-        }
-        h1 {
-            text-align: center;
-        }
-        #deleteButton {
-            color: red;
-        }
-        #containerPosts {
-            display: flex;
-            flex-direction: column;
-            
-            border: 1px solid white;
-            height: 80%;
-            width: 60%;
-            position: relative;
-            left: 400px;
-        }
-        #containerPosts > a {
-            text-decoration: none;
-            color: chartreuse;
-        }
-    </style>
+    <link rel="stylesheet" href="style/mainpage.css">
 </head>
 <body>
     <div id="mainInterface"></div>
     <h1>Submissions!</h1>
-    <button id="deleteButton" onclick="fdp()">Delete Post</button><br>
     <div id="containerPosts">
-        
+        <div>Topics</div><br>
     </div>
     <script src="/submissions_script.js"></script>
     <script src="renderInterface.js"></script>

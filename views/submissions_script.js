@@ -1,6 +1,7 @@
 var checkbox_array = []
 async function getText() { 
-    var response = await fetch('api/submissions/');
+    
+    var response = await fetch('/api/submissions/');
     var data = await response.json();
     for(let i = 0; i < data.length; i++) {
         // creating checkbox
@@ -14,7 +15,7 @@ async function getText() {
         anchor.setAttribute('class', 'title');
         anchor.setAttribute('id', `id${data[i].id}`);
         anchor.setAttribute('href', `/submissions/${data[i].id}`);
-        anchor.innerHTML = `${data[i].title}`;
+        anchor.innerHTML = `${data[i].title} | ${data[i].created_at}`;
         // adding it inside the container
         let container = document.getElementById("containerPosts");
         container.appendChild(anchor);
@@ -24,13 +25,3 @@ async function getText() {
     }
 }
 setTimeout(getText);
-
-async function fdp() {
-    var delete_elements = []
-    for(let i = 0; i < checkbox_array.length; i++) {
-        if (checkbox_array[i].checked) {
-            delete_elements.push(i);
-        }
-    }
-}
-

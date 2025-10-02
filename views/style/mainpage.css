@@ -1,0 +1,41 @@
+.title {
+    border: 1px solid black;
+    border-radius: 5px;
+    display: inline-flex;
+    padding: 3px 5px;
+    width:fit-content;
+    flex-direction: column;
+}
+.title:hover {
+    background-color: red;
+    cursor:pointer;
+}
+h1 {
+    text-align: center;
+}
+#deleteButton {
+    color: red;
+}
+#containerPosts {
+    display: flex;
+    flex-direction: column;
+    
+    border: 1px solid white;
+    height: 80%;
+    width: 60%;
+    position: relative;
+    left: 400px;
+}
+#containerPosts > a {
+    text-decoration: none;
+    color: chartreuse;
+    padding-left: 20px;
+}
+
+#containerPosts > div {
+    border: 1px solid yellow;
+    height: 50px;
+    color: blueviolet;
+    padding-top: 20px;
+    padding-left: 20px;
+}
