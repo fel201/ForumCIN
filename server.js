@@ -94,6 +94,7 @@ app.get('/api/submissions/:commentId', async (req, res) => {
                 title: submission.rows[0].title,
                 content: submission.rows[0].content,
                 id: submission.rows[0].id,
+                created_at: submission.rows[0].created_at,
             }
         });
     }
