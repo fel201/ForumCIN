@@ -1,0 +1,30 @@
+#interfaceBotoes {
+    border: 1px solid fuchsia;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: #211431 !important;
+}
+
+#logoButao, .botoes {
+    display: flex;
+}
+.botoes {
+    display: flex;
+    margin-right: 20px;
+    font-size: large;
+    font-family: sans-serif !important;
+}
+
+.botoes {
+    text-decoration: none;
+    color: gray;
+}
+.botoes:hover {
+    color: white;
+}
