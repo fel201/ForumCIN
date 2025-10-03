@@ -23,17 +23,15 @@ document.getElementById("theText").addEventListener("submit", async e => {
         console.log("Submission Failed", err);
     }
 });
+const title_element = document.getElementById("title101");
+const text_element = document.getElementById("text101");
 
-textarea_content = document.getElementById("text101");
-
-textarea_content.addEventListener("input", ()=> {
-    textarea_content.style.height = 'auto';
-    textarea_content.style.height = textarea_content.scrollHeight + 'px';
+title_element.addEventListener("input", () => {
+    title_element.style.height = 'auto';
+    title_element.style.height = title_element.scrollHeight + 'px';
 });
 
-textarea_input = document.getElementById("title101");
-
-textarea_input.addEventListener("input", () => {
-    textarea_input.style.height = 'auto';
-    textarea_input.style.height = textarea_input.scrollHeight + 'px';
+text_element.addEventListener("input", () => {
+    text_element.style.height = 'auto';
+    text_element.style.height = text_element.scrollHeight + 'px';
 });

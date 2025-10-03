@@ -2,40 +2,18 @@ body, html {
     background-color: black;
     height: 100%;
     width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
-#logoButao, .botoes {
-    display: flex;
-}
-.botoes {
-    display: flex;
-    margin-right: 20px;
-    font-size: large;
-    font-family: sans-serif !important;
-}
+
 .textBar {
     background-color: black;
 }
-#interfaceBotoes {
-    border: 1px solid fuchsia;
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    background-color: #211431 !important;
-}
-.botoes {
-    text-decoration: none;
-    color: gray;
-}
-.botoes:hover {
-    color: white;
-}
+
+
 h1 {
     color: brown;
+    width: 300px;
 }
 .text {
     color:yellow;
@@ -52,9 +30,10 @@ h1 {
 form {
     margin-top: 50px;
     display: flex;
-    align-items: center;
+    align-items:center;
     flex-direction: column;
     gap: 30px;
+    margin-left: 20px;
 }
 
 #postMessage {

@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comente em ForumCIN</title>
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/interface.css">
 </head>
 <body>
     <div id="mainInterface"></div>
     <h1 id="postMessage">Faça um Post!</h1>
-    <h2 id="timezoneId"></h2>
     <form id="theText" method="post" autocomplete="off">
-        <textarea name="titleInformation"id="title101"cols="30"rows="3" placeholder="Title" class="textBar placeholder="Title"></textarea>
+        <textarea maxlength="200" name="titleInformation"id="title101"cols="30"rows="3" placeholder="Title" class="textBar placeholder="Title"></textarea>
         <br><br><br>
-        <textarea name="textInformation" class="textBar" id="text101" rows="8" cols="60" placeholder="Ramble here!"></textarea>
+        <textarea maxlength="2000" name="textInformation" class="textBar" id="text101" rows="8" cols="60" placeholder="Ramble here!"></textarea>
         <br>
         <input type="submit" value="Post!" name="submitButton" id="submit101">
         
