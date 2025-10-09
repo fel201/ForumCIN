@@ -4,6 +4,7 @@ import path from 'path'
 import ejs from 'ejs'
 import pg from 'pg'
 import 'dotenv/config';
+import { queryObjects } from 'v8';
 const { Pool } = pg;
 
 
@@ -29,19 +30,14 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/', (req, res) => {
-    res.render('blog1.html');
+    res.render('main_page.html');
 });
 
-app.post('/', (req,res) => {
-    let text_string = req.body.textInformation;
-    let title_string = req.body.titleInformation;
-    stored_titles.push(title_string);
-    stored_texts.push(text_string);
-    res.render('message.html');
-}); 
-
-
-app.get('/submissions/:commentId', (req, res) => {
+app.get('/sign-up', (req, res) => {
+    res.render('sign_up.html');
+});
+// submissions
+app.get('/submissions/:commentId', async (req, res) => {
     var id_number = req.params.commentId;
     try {
         res.send(stored_texts[id_number]);
@@ -54,14 +50,46 @@ app.get('/submissions/:commentId', (req, res) => {
     }
 })
 
-app.get('/submissions', (req, res) => {
-    res.render('submissions.html'); 
+app.post('/api/submissions/', async (req,res) => {
+    console.log(req.body);
+    var title_string = req.body.title;
+    var text_string = req.body.text;
+    console.log(title_string);
+    console.log(text_string);
+    try {
+        const query_submission = await pool.query(
+            "INSERT INTO submissions (title, content) VALUES ($1, $2) RETURNING *",
+            [title_string, text_string]);
+        console.log(query_submission);
+        res.status(200).json({request: "funciono mn"});
+    }
+    catch {
+        res.status(500).json({error: "POST Request Failed"});
+    }
+}); 
+
+app.get('/create-post', (req, res) => {
+    res.render('create_post.html'); 
 });
-app.get('/api/submissions/', (req, res) => {
-    console.log(stored_titles);
-    res.json(stored_titles);
+
+// api routes
+app.post('/api/users', async (req,res) => {
+    const user_body = req.body;
+    console.log(user_body.username)
+    try {
+        const add_user = await pool.query(
+            "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
+            [user_body.username, user_body.email, user_body.password]);
+        console.log(add_user);
+        res.status(200).json({request: "successful!"});
+    }
+    catch {
+        res.status(500).json("FATAL ERROR");
+    }
 });
-app.get('/api/submissions/:commentId', (req, res) => {
+
+
+app.get('/api/submissions/:commentId', async (req, res) => {
     var comment_id = req.params.commentId;
     var title = stored_titles[comment_id];
     var text = stored_texts[comment_id];
@@ -81,6 +109,18 @@ app.get('/api/submissions/:commentId', (req, res) => {
         res.json({"Message": "Request Error"});
     }
 })
+app.get('/api/submissions', async (req, res) => {
+    console.log("Triggered?");
+    try {
+        const all_submissions = await pool.query("SELECT * FROM submissions");
+        console.log(all_submissions.rows);
+        res.status(200).json(all_submissions.rows);
+    }
+    catch(err) {
+        console.error(err);
+        res.status(500).send("Erro :)");
+    }
+});
 // TO-DO: Fix the comment deletion logic 
 // and also send a proper response message and status
 app.delete('/api/submissions/:deleteId', (req, res) => {
@@ -94,6 +134,7 @@ app.delete('/api/submissions/:deleteId', (req, res) => {
         console.log("o texto nem existe mn");
     }
 });
+
 // redirect to success after receiving the form
 app.get('/success', (req, res) => {
     res.render('message.html');
