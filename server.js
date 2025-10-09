@@ -37,6 +37,10 @@ app.get('/', (req, res) => {
 app.get('/sign-up', (req, res) => {
     res.render('sign_up.html');
 });
+app.get('/sign-in', (req, res) => {
+    res.render('sign_in.html');
+});
+
 // submissions
 app.get('/submissions/:commentId', async (req, res) => {
     var id_number = req.params.commentId;
@@ -92,6 +96,22 @@ app.post('/api/users', async (req,res) => {
     }
 });
 
+app.get('/api/users', async (req,res) => {
+    console.log(req.query.email);
+    console.log(req.query.password);
+    
+    try {
+        const retrieve_user = await pool.query(
+            "SELECT * from users WHERE email = $1 AND password = $2",
+            [req.query.email, req.query.password]
+        );
+        console.log(retrieve_user.rows[0].username);
+        res.status(200).json(retrieve_user.rows[0].username);
+    }
+    catch {
+        res.status(404).json("USER NOT FOUND");
+    }
+});
 
 app.get('/api/submissions/:commentId', async (req, res) => {
     var comment_id = req.params.commentId;
@@ -111,7 +131,8 @@ app.get('/api/submissions/:commentId', async (req, res) => {
     catch {
         res.status(500).json({Error: "GET Request Failed"});
     }
-})
+});
+
 app.get('/api/submissions', async (req, res) => {
     console.log("Triggered?");
     try {

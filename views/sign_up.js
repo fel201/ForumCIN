@@ -1,4 +1,4 @@
-const sign_up_form = document.getElementById("form01");
+const sign_up_form = document.getElementById("sign_up_form");
 
 sign_up_form.addEventListener('submit', async (event) => {
     event.preventDefault();
