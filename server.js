@@ -4,6 +4,7 @@ import path from 'path'
 import ejs from 'ejs'
 import pg from 'pg'
 import 'dotenv/config';
+import { queryObjects } from 'v8';
 const { Pool } = pg;
 
 
@@ -30,27 +31,13 @@ app.use(express.urlencoded({ extended: true }), express.json());
 
 // main route '/'
 app.get('/', (req, res) => {
-    res.render('blog1.html');
+    res.render('main_page.html');
 });
 
+app.get('/sign-up', (req, res) => {
+    res.render('sign_up.html');
+});
 // submissions
-app.post('/api/submissions/', async (req,res) => {
-    console.log(req.body);
-    var title_string = req.body.title;
-    var text_string = req.body.text;
-    console.log(title_string);
-    console.log(text_string);
-    try {
-        const query_submission = await pool.query(
-            "INSERT INTO submissions (title, content) VALUES ($1, $2) RETURNING *",
-            [title_string, text_string]);
-        res.status(200).json({request: "funciono mn"});
-    }
-    catch {
-        res.status(500).json({error: "POST Request Failed"});
-    }
-}); 
-
 app.get('/submissions/:commentId', async (req, res) => {
     var id_number = req.params.commentId;
     try {
@@ -66,23 +53,46 @@ app.get('/submissions/:commentId', async (req, res) => {
         res.status(500).send({ERROR: "server problem(or not)"})
     }
 })
-app.get('/submissions', (req, res) => {
-    res.render('submissions.html'); 
+
+app.post('/api/submissions/', async (req,res) => {
+    console.log(req.body);
+    var title_string = req.body.title;
+    var text_string = req.body.text;
+    console.log(title_string);
+    console.log(text_string);
+    try {
+        const query_submission = await pool.query(
+            "INSERT INTO submissions (title, content) VALUES ($1, $2) RETURNING *",
+            [title_string, text_string]);
+        console.log(query_submission);
+        res.status(200).json({request: "funciono mn"});
+    }
+    catch {
+        res.status(500).json({error: "POST Request Failed"});
+    }
+}); 
+
+app.get('/create-post', (req, res) => {
+    res.render('create_post.html'); 
 });
 
 // api routes
-app.get('/api/submissions', async (req, res) => {
-    console.log("Triggered?");
+app.post('/api/users', async (req,res) => {
+    const user_body = req.body;
+    console.log(user_body.username)
     try {
-        const all_submissions = await pool.query("SELECT * FROM submissions");
-        console.log(all_submissions.rows);
-        res.status(200).json(all_submissions.rows);
+        const add_user = await pool.query(
+            "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
+            [user_body.username, user_body.email, user_body.password]);
+        console.log(add_user);
+        res.status(200).json({request: "successful!"});
     }
-    catch(err) {
-        console.error(err);
-        res.status(500).send("Erro :)");
+    catch {
+        res.status(500).json("FATAL ERROR");
     }
 });
+
+
 app.get('/api/submissions/:commentId', async (req, res) => {
     var comment_id = req.params.commentId;
 
@@ -102,6 +112,18 @@ app.get('/api/submissions/:commentId', async (req, res) => {
         res.status(500).json({Error: "GET Request Failed"});
     }
 })
+app.get('/api/submissions', async (req, res) => {
+    console.log("Triggered?");
+    try {
+        const all_submissions = await pool.query("SELECT * FROM submissions");
+        console.log(all_submissions.rows);
+        res.status(200).json(all_submissions.rows);
+    }
+    catch(err) {
+        console.error(err);
+        res.status(500).send("Erro :)");
+    }
+});
 // TO-DO: Fix the comment deletion logic 
 // and also send a proper response message and status
 app.delete('/api/submissions/:deleteId', (req, res) => {
@@ -114,6 +136,7 @@ app.delete('/api/submissions/:deleteId', (req, res) => {
         console.log("o texto nem existe mn");
     }
 });
+
 // redirect to success after receiving the form
 app.get('/success', (req, res) => {
     res.render('message.html');
