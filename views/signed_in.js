@@ -1,5 +1,4 @@
 var sign_in_form = document.getElementById("sign_in_form");
-var is_active = false;
 sign_in_form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const email = document.getElementById("email02").value;
@@ -8,14 +7,17 @@ sign_in_form.addEventListener('submit', async (event) => {
     console.log(params);
     try {
         var request = await fetch(params);
+        const username = await request.json();
+        console.log(username);
         if(request.status == 200) {
-            localStorage.setItem("username", request.json());
-            localStorage.setItem("is_logged_in", true);
+            localStorage.setItem("is_logged_in", JSON.stringify(true));
+            localStorage.setItem("username", username);
         }
     }
     catch {
         console.log(request);
         console.log("GET Request Failed");
     }
+    window.location.href="/";
 });
 
