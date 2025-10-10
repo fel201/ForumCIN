@@ -10,9 +10,30 @@
     border-right: none;
     background-color: #211431 !important;
 }
-
+#logoButao {
+    padding-left: 10px;
+}
 #logoButao, .botoes {
     display: flex;
+}
+#signup > input, #signin > input {
+    width: 90px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: cyan;
+}
+#signup > input:hover, #signin > input:hover {
+    background-color: #211431;
+}
+#signup {
+    padding-right: 20px;
+}
+#signin {
+    padding-right: 20px;
+}
+#signin, #signup {
+    text-decoration: none;
+    color: gray;
 }
 .botoes {
     display: flex;
