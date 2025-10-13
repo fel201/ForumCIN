@@ -2,6 +2,7 @@ document.getElementById("theText").addEventListener("submit", async e => {
     e.preventDefault();
     const title = e.target.titleInformation.value;
     const text = e.target.textInformation.value;
+    const user_id = JSON.parse(localStorage.getItem("user_id"));
     try {
         const data = await fetch('api/submissions', {
             method: 'POST',
@@ -11,6 +12,7 @@ document.getElementById("theText").addEventListener("submit", async e => {
             body: JSON.stringify({
                 title: title,
                 text: text,
+                user_id: user_id
             }),
         });
         if (!data.ok) {

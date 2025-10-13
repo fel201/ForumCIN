@@ -42,28 +42,21 @@ app.get('/sign-in', (req, res) => {
 
 // submissions
 app.get('/submissions/:commentId', async (req, res) => {
-    var id_number = req.params.commentId;
-    try {
-        res.send(stored_texts[id_number]);
-    }
-    // TO-DO: i should handle errors correctly by sending back
-    // the correct type of status depending on the type
-    // of problem xd
-    catch {
-        res.status(500).send({ERROR: "server problem(or not)"})
-    }
+    res.render("post.html");
 })
 
 app.post('/api/submissions/', async (req,res) => {
     console.log(req.body);
     var title_string = req.body.title;
     var text_string = req.body.text;
+    var post_user_id = req.body.user_id;
     console.log(title_string);
     console.log(text_string);
+    console.log(post_user_id);
     try {
         const query_submission = await pool.query(
-            "INSERT INTO submissions (title, content) VALUES ($1, $2) RETURNING *",
-            [title_string, text_string]);
+            "INSERT INTO submissions (title, content, user_id) VALUES ($1, $2, $3) RETURNING *",
+            [title_string, text_string, post_user_id]);
         console.log(query_submission);
         res.status(200).json({request: "funciono mn"});
     }
@@ -102,7 +95,10 @@ app.get('/api/users', async (req,res) => {
             [req.query.email, req.query.password]
         );
         console.log(retrieve_user.rows[0].username);
-        res.status(200).json(retrieve_user.rows[0].username);
+        res.status(200).json({
+            username: retrieve_user.rows[0].username,
+            user_id: retrieve_user.rows[0].user_id,
+        });
     }
     catch {
         res.status(404).json("USER NOT FOUND");

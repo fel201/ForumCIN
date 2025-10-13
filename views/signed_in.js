@@ -7,11 +7,11 @@ sign_in_form.addEventListener('submit', async (event) => {
     console.log(params);
     try {
         var request = await fetch(params);
-        const username = await request.json();
-        console.log(username);
+        const user_data = await request.json();
         if(request.status == 200) {
             localStorage.setItem("is_logged_in", JSON.stringify(true));
-            localStorage.setItem("username", username);
+            localStorage.setItem("username", user_data.username);
+            localStorage.setItem("user_id", user_data.user_id);
         }
     }
     catch {
