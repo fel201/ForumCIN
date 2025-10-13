@@ -15,8 +15,7 @@ async function getText() {
         anchor.setAttribute('class', 'title');
         anchor.setAttribute('id', `id${data[i].id}`);
         anchor.setAttribute('href', `/submissions/${data[i].id}`);
-        let user = localStorage.getItem("username");
-        anchor.innerHTML = `${data[i].title} | usuário: ${user}`;
+        anchor.innerHTML = `${data[i].title} | usuário: ${data[i].user_id}`;
         // adding it inside the container
         let container = document.getElementById("containerPosts");
         container.appendChild(anchor);
