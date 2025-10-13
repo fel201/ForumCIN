@@ -1,0 +1,8 @@
+#postContainer > h3 {
+    color: whitesmoke;
+    text-align: center;
+}
+#postContainer > p {
+    color: whitesmoke;
+    text-align: justify;
+}
