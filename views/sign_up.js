@@ -19,7 +19,7 @@ sign_up_form.addEventListener('submit', async (event) => {
            }) 
         });
         if(!request.ok) {
-            console.log(request.status);
+            
         };
     }
     catch(err) {

@@ -12,7 +12,7 @@ const pool = new Pool({
     database: process.env.DB_NAME,
 });
 
-router.post('/api/submissions/', async (req,res) => {
+router.post('/submissions/', async (req,res) => {
     console.log(req.body);
     var title_string = req.body.title;
     var text_string = req.body.text;
@@ -32,7 +32,6 @@ router.post('/api/submissions/', async (req,res) => {
     }
 }); 
 
-// api routes
 router.post('/users', async (req,res) => {
     const user_body = req.body;
     console.log(user_body.username)
@@ -47,7 +46,7 @@ router.post('/users', async (req,res) => {
         res.status(500).json("FATAL ERROR");
     }
 });
-
+// login request
 router.get('/users', async (req,res) => {
     console.log(req.query.email);
     console.log(req.query.password);
@@ -67,9 +66,25 @@ router.get('/users', async (req,res) => {
         res.status(404).json("USER NOT FOUND");
     }
 });
+// accessing user by id
+router.get("/users/:user_id", async (req, res) => {
+    const user_id = req.params.user_id;
 
+    try {
+        const user_query = await pool.query
+        ("SELECT * FROM users WHERE user_id = $1", [user_id]);
+        res.status(200).json({
+            username: user_query.rows[0].username,
+            email: user_query.rows[0].email,
+            created_at: user_query.rows[0].created_at,
+        });
+    }
+    catch {
+        res.status(500).json("ERROR");
+    }
+});
 router.get('/submissions/:commentId', async (req, res) => {
-    var comment_id = req.params.commentId;
+    const comment_id = req.params.commentId;
 
     try {
         const submission = await pool.query
