@@ -39,4 +39,25 @@ h1 {
     padding-top: 20px;
     padding-left: 20px;
 }
+#contentSegment > #href_create_post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    text-decoration: none;
+    right: 200px;
+}
 
+#create_post_button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    height: 40px;
+    width: 130px;
+    background-color: slateblue;
+}
+#create_post_button:hover {
+    background-color: blue;
+}

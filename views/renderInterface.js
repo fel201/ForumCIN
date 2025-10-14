@@ -12,8 +12,9 @@ fetch("/interface.html")
             return anchor;
         }        
     })
-    .then(log_out => log_out.addEventListener("click", logOutUser));
-    
+    .then(log_out => log_out.addEventListener("click", logOutUser))
+    .catch(err => console.log(`Error during the interface rendering: ` + err));
+
 function displayUser() {
     const is_logged_in = JSON.parse(localStorage.getItem("is_logged_in"));
     if(is_logged_in) {
