@@ -95,6 +95,7 @@ router.get('/submissions/:commentId', async (req, res) => {
                 content: submission.rows[0].content,
                 id: submission.rows[0].id,
                 created_at: submission.rows[0].created_at,
+                user_id: submission.rows[0].user_id,
             }
         });
     }
