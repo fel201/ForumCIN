@@ -1,10 +1,26 @@
-import { localsName } from "ejs";
 
-document.addEventListener("input", async () => {
-    const comment_content = document.getElementById("text101");
+document.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const textarea_DOM = document.getElementById("text101");
+    const comment_content = textarea_DOM.value;
     const comment_user_id = JSON.parse(localStorage.getItem("user_id"));
-    const request_user_inf = await fetch(`/api/users/${comment_user_id}`);
-    const user_inf = await request_user_inf.json();
-    
+    const pathname = window.location.pathname.split('/');
+    const post_id = pathname[pathname.length-2];
+    console.log(post_id);
+    const comment_post_req = await fetch(`/api/submissions/${post_id}/comments/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            comment_content: comment_content,
+            user_id: comment_user_id,
+        })
+    });
+    if(!comment_post_req.ok) {
+        const fucking_shit = await comment_post_req.json();
+        console.log(fucking_shit);
+        throw new Error("An error has occured in the comment POST Request: " + comment_post_req.status);
+    }
 });
 

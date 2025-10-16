@@ -83,8 +83,29 @@ router.get("/users/:user_id", async (req, res) => {
         res.status(500).json("ERROR");
     }
 });
-router.get('/submissions/:commentId', async (req, res) => {
-    const comment_id = req.params.commentId;
+// storing comment
+// `/api/submissions/${post_id}/comments/`
+// "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
+router.post('/submissions/:postId/comments/', async (req, res) => {
+    const post_id = req.params.postId;
+    const comment_content = req.body.comment_content;
+    const comment_user_id = req.body.user_id;
+    console.log(post_id, comment_content, comment_user_id);
+
+    try {
+        const post_query = await pool.query(
+            'INSERT INTO comments (post_id, content, user_id)\
+             VALUES ($1, $2, $3) RETURNING *', [post_id, comment_content, comment_user_id]);
+        res.status(200).json({message: "POST Request completed successfully"});
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({message: err});
+    }
+});
+
+router.get('/submissions/:postId', async (req, res) => {
+    const comment_id = req.params.postId;
 
     try {
         const submission = await pool.query
