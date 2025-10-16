@@ -19,7 +19,7 @@ router.get('/submissions/:commentId', async (req, res) => {
 })
 
 router.get('/comment/:postId', async (req, res) => {
-    res.render()
+    res.render("create_comment.html")
 })
 router.get('/create-post', (req, res) => {
     res.render('create_post.html'); 

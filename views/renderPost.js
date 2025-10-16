@@ -45,3 +45,7 @@ async function renderPost() {
 setTimeout(renderPost);
 
 
+// comment button logic
+
+const comment_button = document.getElementById("commentButton");
+comment_button.setAttribute("href", `/comment/${post_id}`);
