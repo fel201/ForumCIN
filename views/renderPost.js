@@ -33,7 +33,7 @@ async function renderPost() {
         }
         author_information = await retrieve_user_inf.json();
         const user_inf = document.createElement("b");
-        user_inf.setAttribute("id", "post_user_information");
+        user_inf.setAttribute("class", "post_user_information");
         user_inf.innerHTML = author_information.username + " " + created_at;
         post_container.appendChild(user_inf);
     }
@@ -50,3 +50,32 @@ setTimeout(renderPost);
 const comment_button = document.getElementById("commentButton");
 comment_button.setAttribute("href", `/submissions/${post_id}/comment`);
 // render comments
+
+async function renderComments() {
+    const request = await fetch(`/api/submissions/${post_id}/comments`);
+    const inf = await request.json();
+    console.log(inf);   
+    // 
+    if(inf.comment.length != 0) {
+        for(let i = 0; i < inf.comment.length; i++) {
+            const comment_container = document.createElement("div");
+            comment_container.setAttribute("class", "commentContainer");
+
+            const content = document.createElement("p");
+            content.innerHTML = inf.comment[i].content;
+
+            // retrieve user's nickname
+            const user_req = await fetch(`/api/users/${inf.comment[i].user_id}`);
+            const user = await user_req.json();
+            
+            const author_inf = document.createElement('b');
+            author_inf.setAttribute('class', 'post_user_information');
+            author_inf.innerHTML = user.username + " " + inf.comment[i].created_at;
+
+            comment_container.appendChild(content);
+            comment_container.appendChild(author_inf);
+            document.body.appendChild(comment_container);
+        }
+    }
+}
+setTimeout(renderComments);

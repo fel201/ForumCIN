@@ -22,5 +22,6 @@ document.addEventListener("submit", async (event) => {
         console.log(fucking_shit);
         throw new Error("An error has occured in the comment POST Request: " + comment_post_req.status);
     }
+    window.location.href = '/submissions/' + post_id;
 });
 
