@@ -83,8 +83,7 @@ router.get("/users/:user_id", async (req, res) => {
         res.status(500).json("ERROR");
     }
 });
-// storing comment
-// `/api/submissions/${post_id}/comments/`
+// storing the comment
 // "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
 router.post('/submissions/:postId/comments/', async (req, res) => {
     const post_id = req.params.postId;
@@ -103,6 +102,23 @@ router.post('/submissions/:postId/comments/', async (req, res) => {
         res.status(500).json({message: err});
     }
 });
+// retrieving comments from a post
+router.get('/submissions/:postId/comments/', async (req, res) => {
+    const post_id = req.params.postId;
+    try {
+        const select_comments = await pool.query(
+            'SELECT * FROM comments WHERE post_id = $1', [post_id]
+        );
+        console.log(select_comments);
+        res.status(200).json({comment: select_comments.rows});
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({message: err});
+    }
+});
+
+
 
 router.get('/submissions/:postId', async (req, res) => {
     const comment_id = req.params.postId;

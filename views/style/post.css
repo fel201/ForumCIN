@@ -1,4 +1,9 @@
-#postContainer {
+#containerdocarai {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+#postContainer, .commentContainer {
     display: flex;
     position: relative;
     flex-direction: column;
@@ -10,15 +15,28 @@
     color: whitesmoke;
     text-align: center;
 }
-#postContainer > p {
+#postContainer, .commentContainer > p {
     padding-left: 20px;
     padding-right: 20px;
     color: whitesmoke;
-    text-overflow: ellipsis;
     
 }
-#post_user_information {
+.post_user_information {
     color: antiquewhite;
     text-align: end;
     padding-right: 4px;
+}
+
+#commentButton {
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: 800px;
+    margin-bottom: 50px;
+    text-decoration: none;
+}
+#commentButtonElement {
+    
+    border-radius: 10px;
+    height: 50px;
 }
