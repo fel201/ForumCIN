@@ -10,6 +10,9 @@
     border-right: none;
     background-color: #211431 !important;
 }
+#displayUser {
+    font-size: larger;
+}
 #logoButao {
     padding-left: 10px;
 }

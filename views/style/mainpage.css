@@ -31,7 +31,6 @@ h1 {
     color: chartreuse;
     padding-left: 20px;
 }
-
 #containerPosts > div {
     border: 1px solid yellow;
     height: 50px;
@@ -60,4 +59,7 @@ h1 {
 }
 #create_post_button:hover {
     background-color: blue;
+}
+.icecold {
+    color: antiquewhite;
 }

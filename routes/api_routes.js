@@ -25,7 +25,7 @@ router.post('/submissions/', async (req,res) => {
             "INSERT INTO submissions (title, content, user_id) VALUES ($1, $2, $3) RETURNING *",
             [title_string, text_string, post_user_id]);
         console.log(query_submission);
-        res.status(200).json({request: "funciono mn"});
+        res.status(200).json({submission_inf: query_submission.rows});
     }
     catch {
         res.status(500).json({error: "POST Request Failed"});

@@ -8,3 +8,5 @@ CREATE TABLE comments(
 );
 
 SELECT * FROM comments
+SELECT * FROM submissions
+DELETE FROM submissions WHERE id = 13;
