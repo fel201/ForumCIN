@@ -8,6 +8,7 @@ async function getText() {
         const response = await fetch('/api/submissions/');
         const data = await response.json();
         console.log(data);
+        const posts = []
         for(let i = 0; i < data.length; i++) {
             // creating checkbox
             let anchor = document.createElement('a');
@@ -23,12 +24,27 @@ async function getText() {
             // adding the line break 
             let br = document.createElement('br');
             document.body.appendChild(br);
+            posts.push(anchor);
         }
+        return posts
     }
     catch(err) {
         console.log('Error rendering posts: ' + err);
     }
 };
+async function listenToPostRightClick() {
+    const posts = await getText();
+    posts.forEach((element) => {
+        element.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+            const panel_div = document.createElement('div');
+            const delete_s = document.createElement('div');
+            delete_s.setAttribute('class', 'icecold');
+            delete_s.innerHTML = 'Deletar post';
+            panel_div.appendChild(delete_s);
+            document.body.appendChild(panel_div);
+        })
+    })
+}
 
-setTimeout(getText);
-
+listenToPostRightClick();

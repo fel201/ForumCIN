@@ -19,10 +19,11 @@ sign_up_form.addEventListener('submit', async (event) => {
            }) 
         });
         if(!request.ok) {
-            
+            return new Error('An error has occured while signing up: '+ request.status);
         };
     }
     catch(err) {
         console.log(err);
     }
+    window.location.href = '/';
 });

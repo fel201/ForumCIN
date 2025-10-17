@@ -18,8 +18,8 @@ document.getElementById("theText").addEventListener("submit", async e => {
         if (!data.ok) {
             throw new Error(`Server error: ${data.status}`);
         }
-        console.log("Passou!");
-        window.location.href = "/success";
+        const post_inf = await data.json();
+        window.location.href = '/submissions/' + post_inf.submission_inf[0].id;
     }
     catch (err) {
         console.log("Submission Failed", err);
