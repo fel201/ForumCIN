@@ -62,8 +62,8 @@ router.get('/users', async (req,res) => {
             user_id: retrieve_user.rows[0].user_id,
         });
     }
-    catch {
-        res.status(404).json("USER NOT FOUND");
+    catch(err) {
+        res.status(500).json(err);
     }
 });
 // accessing user by id
@@ -77,6 +77,7 @@ router.get("/users/:user_id", async (req, res) => {
             username: user_query.rows[0].username,
             email: user_query.rows[0].email,
             created_at: user_query.rows[0].created_at,
+            is_admin: user_query.rows[0].is_admin,
         });
     }
     catch {
