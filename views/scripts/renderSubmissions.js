@@ -3,6 +3,7 @@ if(!is_logged_in) {
     const href_create_post = document.getElementById("href_create_post");
     href_create_post.style.display = "none";
 }
+// 1 - every post segment is a div !!
 async function getText() { 
     try {
         const response = await fetch('/api/submissions/');
@@ -11,6 +12,8 @@ async function getText() {
         const posts = []
         for(let i = 0; i < data.length; i++) {
             // creating checkbox
+            let div = document.createElement('div');
+            div.setAttribute('class', 'titleDiv');
             let anchor = document.createElement('a');
             anchor.setAttribute('class', 'title');
             anchor.setAttribute('id', `id${data[i].id}`);
@@ -20,11 +23,12 @@ async function getText() {
             anchor.innerHTML = `${data[i].title} | usuário: ${user_inf.username}`;
             // adding it inside the container
             let container = document.getElementById("containerPosts");
-            container.appendChild(anchor);
+            container.appendChild(div);
+            div.appendChild(anchor);
             // adding the line break 
             let br = document.createElement('br');
             document.body.appendChild(br);
-            posts.push(anchor);
+            posts.push(div);
         }
         return posts
     }
@@ -33,16 +37,13 @@ async function getText() {
     }
 };
 async function listenToPostRightClick() {
+    let interface_is_on = false;
     const posts = await getText();
     posts.forEach((element) => {
         element.addEventListener('contextmenu', (event) => {
             event.preventDefault();
-            const panel_div = document.createElement('div');
-            const delete_s = document.createElement('div');
-            delete_s.setAttribute('class', 'icecold');
-            delete_s.innerHTML = 'Deletar post';
-            panel_div.appendChild(delete_s);
-            document.body.appendChild(panel_div);
+            const panel_div = document.getElementsByClassName('rightClickMenu');
+            element.appendChild(panel_div[0]);
         })
     })
 }

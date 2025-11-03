@@ -26,18 +26,35 @@ h1 {
     position: relative;
     left: 400px;
 }
-#containerPosts > a {
+.titleDiv > a {
     text-decoration: none;
     color: chartreuse;
     padding-left: 20px;
 }
-#containerPosts > div {
+#rightClickMenuInstance {
+    display: none;
+}
+.rightClickMenu {
+    height: max-content;
+    width: max-content;
+    border: #333333;
+    background-color: #333333;
+    border-radius: 30px
+}
+.rightClickMenu > a {
+    display: none;
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+#containerPosts > #topicsSection {
     border: 1px solid yellow;
     height: 50px;
     color: blueviolet;
     padding-top: 20px;
     padding-left: 20px;
 }
+
 #contentSegment > #href_create_post {
     display: flex;
     flex-direction: column;
