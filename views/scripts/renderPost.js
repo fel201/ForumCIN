@@ -29,7 +29,10 @@ async function renderPost() {
         const created_at = post.submission_data.created_at;
         const retrieve_user_inf = await fetch("/api/users/" + author_id);
         if(!request.ok) {
-            throw new Error("An error has occured while retrieving user information from the post: " + err);
+            throw new Error(
+                "An error has occured while retrieving user information from the post. Status: "
+                 + request.status 
+            );
         }
         author_information = await retrieve_user_inf.json();
         const user_inf = document.createElement("b");

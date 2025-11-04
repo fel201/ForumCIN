@@ -119,7 +119,23 @@ router.get('/submissions/:postId/comments/', async (req, res) => {
     }
 });
 
-
+router.delete('/submissions/:postId', async (req, res) => {
+    const post_id = req.params.postId;
+    try {
+        // deleting the comments first because 
+        // there's a foreign key constraint 
+        const delete_comments_query = pool.query(
+            'DELETE FROM comments WHERE post_id = $1', [post_id]
+        );
+        const delete_post_query = pool.query(
+            'DELETE FROM submissions WHERE id = $1', [post_id]
+        );
+        res.status(200).json({message: "Success!"});
+    } 
+    catch(err) {
+        res.status(500).json({message: "NETWORK PROBLEM"});
+    }
+});
 
 router.get('/submissions/:postId', async (req, res) => {
     const comment_id = req.params.postId;
