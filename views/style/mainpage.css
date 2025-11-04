@@ -31,18 +31,17 @@ h1 {
     color: chartreuse;
     padding-left: 20px;
 }
-#rightClickMenuInstance {
+.rightClickMenuDiv {
     display: none;
-}
-.rightClickMenu {
-    height: max-content;
-    width: max-content;
+    height: 25px;
+    width: 110px;
+    text-align: center;
+    position: fixed;
     border: #333333;
     background-color: #333333;
-    border-radius: 30px
+    border-radius: 20px;
 }
-.rightClickMenu > a {
-    display: none;
+.rightClickMenuDiv > a {
     text-decoration: none;
     color: antiquewhite;
 }
@@ -54,29 +53,31 @@ h1 {
     padding-top: 20px;
     padding-left: 20px;
 }
-
-#contentSegment > #href_create_post {
+#contentSegment {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    text-decoration: none;
-    right: 200px;
+    right: 400px;
 }
-
+#contentSegment > a {
+    width: fit-content;
+    position: relative;
+    left: 300px;
+    margin-bottom: 20px;
+}
 #create_post_button {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
     border-radius: 20px;
     height: 40px;
     width: 130px;
     background-color: slateblue;
 }
-#create_post_button:hover {
-    background-color: blue;
-}
 .icecold {
     color: antiquewhite;
+}
+
+
+#deletePostRef {
+    color: whitesmoke;
 }
