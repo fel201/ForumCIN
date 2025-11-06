@@ -1,9 +1,12 @@
-const post_id = window.location.pathname.split("/").pop();
+function addCommentButtonHyperTextRef() {
+    const post_id = window.location.pathname.split("/").pop();
+    const comment_button_element = document.getElementById("commentButton");
+    comment_button_element.setAttribute("href", `/submissions/${post_id}/comment`);
+};
 
 async function renderPost() {
-    try {
-        const current_url = window.location.href;
-        
+    try {        
+        const post_id = window.location.pathname.split("/").pop();
         const fetch_url = "/api/submissions/" + post_id;
 
         const request = await fetch(fetch_url)
@@ -43,18 +46,11 @@ async function renderPost() {
     catch(err) {
         console.log('An error has occurred: ' + err);
     }
-}
+};
 
-setTimeout(renderPost);
-
-
-// comment button logic
-
-const comment_button = document.getElementById("commentButton");
-comment_button.setAttribute("href", `/submissions/${post_id}/comment`);
-// render comments
 
 async function renderComments() {
+    const post_id = window.location.pathname.split("/").pop();
     const request = await fetch(`/api/submissions/${post_id}/comments`);
     const inf = await request.json();
     console.log(inf);   
@@ -63,10 +59,10 @@ async function renderComments() {
         for(let i = 0; i < inf.comment.length; i++) {
             const comment_container = document.createElement("div");
             comment_container.setAttribute("class", "commentContainer");
-
+            
             const content = document.createElement("p");
             content.innerHTML = inf.comment[i].content;
-
+            
             // retrieve user's nickname
             const user_req = await fetch(`/api/users/${inf.comment[i].user_id}`);
             const user = await user_req.json();
@@ -74,11 +70,14 @@ async function renderComments() {
             const author_inf = document.createElement('b');
             author_inf.setAttribute('class', 'post_user_information');
             author_inf.innerHTML = user.username + " " + inf.comment[i].created_at;
-
+            
             comment_container.appendChild(content);
             comment_container.appendChild(author_inf);
             document.body.appendChild(comment_container);
         }
     }
-}
-setTimeout(renderComments);
+};
+
+renderPost()
+.then(() => renderComments())
+.then(() => addCommentButtonHyperTextRef);
