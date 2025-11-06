@@ -1,34 +1,45 @@
-const is_logged_in = JSON.parse(localStorage.getItem("is_logged_in"));
-if(!is_logged_in) {
-    const href_create_post = document.getElementById("href_create_post");
-    href_create_post.style.display = "none";
+function displayCreatePostButton() {
+    const is_logged_in = JSON.parse(localStorage.getItem("is_logged_in"));
+    if(!is_logged_in) {
+        const href_create_post = document.getElementById("href_create_post");
+        href_create_post.style.display = "none";
+    }
+};
+// anchor class = title -> class = postPreviewDiv
+function createPostAnchor(post_title, post_id, username) {
+    let anchor = document.createElement('a');
+    anchor.setAttribute('class', 'postPreviewAnchor');
+    anchor.setAttribute('href', `/submissions/${post_id}`);
+    anchor.innerHTML = `${post_title} | usuário: ${username}`;
+    return anchor;
+};
+function addLineBreak() {
+    let br = document.createElement('br');
+    document.body.appendChild(br);
 }
-// 1 - every post segment is a div !!
-async function getText() { 
+// every post segment is a div !!
+async function renderPostsPreviews() { 
     try {
         const response = await fetch('/api/submissions/');
         const data = await response.json();
         console.log(data);
         const posts = []
         for(let i = 0; i < data.length; i++) {
-            // creating checkbox
             let div = document.createElement('div');
-            div.setAttribute('class', 'titleDiv');
-            let anchor = document.createElement('a');
-            anchor.setAttribute('class', 'title');
-            anchor.setAttribute('id', `id${data[i].id}`);
-            anchor.setAttribute('href', `/submissions/${data[i].id}`);
-            let user = await fetch(`api/users/${data[i].user_id}`);
-            let user_inf = await user.json();
-            anchor.innerHTML = `${data[i].title} | usuário: ${user_inf.username}`;
+            div.setAttribute('class', 'postPreviewDiv');
+            
+            let request = await fetch(`api/users/${data[i].user_id}`);
+            let author_inf = await request.json();
+
+            post_anchor = createPostAnchor(
+                data[i].title, data[i].id, author_inf.username
+            );
             // adding it inside the container
             let container = document.getElementById("containerPosts");
             container.appendChild(div);
-            div.appendChild(anchor);
-            // adding the line break 
-            let br = document.createElement('br');
-            document.body.appendChild(br);
-            // now i decided to simply return am object containing
+            div.appendChild(post_anchor);
+            addLineBreak();
+            // now i decided to simply return an object containing
             // the id of the post the user right clicked on 
             // i couldn't be arsed to find another way of doing it 
             let tmp_object = {
@@ -45,7 +56,7 @@ async function getText() {
     }
 };
 
-async function rightClickEventListener(event, element_object) {
+function rightClickEventListener(event, element_object) {
     event.preventDefault();
     const panel_div = document.getElementsByClassName('rightClickMenuDiv');
     const delete_post_element = document.getElementById("deletePostRef");
@@ -57,11 +68,13 @@ async function rightClickEventListener(event, element_object) {
     document.body.addEventListener('click', () => {
         panel_div[0].style.display = 'none';
     })
+
     return {
         post_id: element_object.post_id,
         delete_post_anchor: delete_post_element,
     };
 }
+
 async function deletePost(id) {
     const url = `api/submissions/${id}`;
     const request = await fetch(url, {
@@ -73,17 +86,18 @@ async function deletePost(id) {
     return 'ok'
 }
 
-getText()
+// render posts + right click menu
+renderPostsPreviews()
 .then((posts) => {
     posts.forEach(element_object => {
         element_object.post_preview.addEventListener(
             'contextmenu', async event => {
-                const menu_object = await rightClickEventListener(event, element_object);
+                const menu_object = rightClickEventListener(event, element_object);
                 console.log(menu_object);
                 menu_object.delete_post_anchor.addEventListener('click', async event => {
                     event.preventDefault();
                     await deletePost(menu_object.post_id);
-                    window.location.href = '/';
+                    window.location.href = '/?refresh=timestamp';
                 });
         })
     })

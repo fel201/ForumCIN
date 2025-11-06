@@ -1,5 +1,4 @@
-
-document.addEventListener("submit", async (event) => {
+async function addComment(event) {
     event.preventDefault();
     const textarea_DOM = document.getElementById("text101");
     const comment_content = textarea_DOM.value;
@@ -23,5 +22,6 @@ document.addEventListener("submit", async (event) => {
         throw new Error("An error has occured in the comment POST Request: " + comment_post_req.status);
     }
     window.location.href = '/submissions/' + post_id;
-});
+}
 
+document.addEventListener("submit", event => addComment());
