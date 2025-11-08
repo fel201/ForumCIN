@@ -1,9 +1,11 @@
 import express from 'express';
 import pg from 'pg';
-import 'dotenv/config'
-const router = express.Router();
-const { Pool } = pg;
+import 'dotenv/config';
+import { createToken } from '../token.js';
+import { tokenStatus } from '../token.js';
 
+const { Pool } = pg;
+const router = express.Router();
 const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
@@ -13,7 +15,13 @@ const pool = new Pool({
 });
 
 router.post('/submissions/', async (req,res) => {
-    console.log(req.body);
+    console.log(req.cookies.sessionToken);
+    const token = req.cookies.sessionToken
+    if (!tokenStatus(token)) {
+        console.log('token n autorizado xd');
+        res.status(403).json({message: 'Unauthorized token'});
+        return 1;
+    }
     var title_string = req.body.title;
     var text_string = req.body.text;
     var post_user_id = req.body.user_id;
@@ -24,6 +32,10 @@ router.post('/submissions/', async (req,res) => {
         const query_submission = await pool.query(
             "INSERT INTO submissions (title, content, user_id) VALUES ($1, $2, $3) RETURNING *",
             [title_string, text_string, post_user_id]);
+        if (query_submission.rows.length == 0) {
+            res.sendStatus(404);
+            return 1;
+        }
         console.log(query_submission);
         res.status(200).json({submission_inf: query_submission.rows});
     }
@@ -33,6 +45,7 @@ router.post('/submissions/', async (req,res) => {
 }); 
 
 router.post('/users', async (req,res) => {
+    
     const user_body = req.body;
     console.log(user_body.username)
     try {
@@ -47,7 +60,8 @@ router.post('/users', async (req,res) => {
     }
 });
 // login request
-router.post('/users', async (req,res) => {
+router.post('/session', async (req,res) => {
+    
     const email = req.body.email;
     const password = req.body.password;    
     try {
@@ -59,9 +73,16 @@ router.post('/users', async (req,res) => {
             res.sendStatus(404);
         }
         else {
+            const username = retrieve_user.rows[0].username;
+            const user_id = retrieve_user.rows[0].user_id;
+            console.log(username + user_id);
+            const token = await createToken(username, user_id);
+            res.cookie('sessionToken', token, {
+                httpOnly: true,
+            });
             res.status(200).json({
-                username: retrieve_user.rows[0].username,
-                user_id: retrieve_user.rows[0].user_id,
+                username: username,
+                user_id: user_id,
             });
         }
     }
@@ -90,6 +111,12 @@ router.get("/users/:user_id", async (req, res) => {
 // storing the comment
 // "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
 router.post('/submissions/:postId/comments/', async (req, res) => {
+    const token = req.cookies.sessionToken;
+    if (!tokenStatus(token)) {
+        console.log('token n autorizado xd');
+        res.status(403).json({message: 'Unauthorized token'});
+        return 1;
+    }
     const post_id = req.params.postId;
     const comment_content = req.body.comment_content;
     const comment_user_id = req.body.user_id;
@@ -123,6 +150,12 @@ router.get('/submissions/:postId/comments/', async (req, res) => {
 });
 
 router.delete('/submissions/:postId', async (req, res) => {
+    const token = req.cookies.sessionToken;
+    if (!tokenStatus(token)) {
+        console.log('token n autorizado xd');
+        res.status(403).json({message: 'Unauthorized token'});
+        return 1;
+    }
     const post_id = req.params.postId;
     try {
         // deleting the comments first because 
