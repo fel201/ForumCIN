@@ -47,20 +47,23 @@ router.post('/users', async (req,res) => {
     }
 });
 // login request
-router.get('/users', async (req,res) => {
-    console.log(req.query.email);
-    console.log(req.query.password);
-    
+router.post('/users', async (req,res) => {
+    const email = req.body.email;
+    const password = req.body.password;    
     try {
         const retrieve_user = await pool.query(
             "SELECT * from users WHERE email = $1 AND password = $2",
-            [req.query.email, req.query.password]
+            [email, password]
         );
-        console.log(retrieve_user.rows[0].username);
-        res.status(200).json({
-            username: retrieve_user.rows[0].username,
-            user_id: retrieve_user.rows[0].user_id,
-        });
+        if (retrieve_user.rows.length == 0) {
+            res.sendStatus(404);
+        }
+        else {
+            res.status(200).json({
+                username: retrieve_user.rows[0].username,
+                user_id: retrieve_user.rows[0].user_id,
+            });
+        }
     }
     catch(err) {
         res.status(500).json(err);
