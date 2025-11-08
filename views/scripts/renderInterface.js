@@ -16,13 +16,12 @@ fetch("/interface.html")
     .catch(err => console.log(`Error during the interface rendering: ` + err));
 
 function displayUser() {
-    const is_logged_in = JSON.parse(localStorage.getItem("is_logged_in"));
-    if(is_logged_in) {
+    const user = localStorage.getItem('username');
+    if(user != "") {
         const display_user_html = document.getElementById("displayUser");
         const username = localStorage.getItem("username");
         console.log(username);
         display_user_html.innerHTML = "Welcome, " + username + "!";
-        console.log(is_logged_in);
         return true;
     }
     else {
@@ -42,8 +41,8 @@ function displayLogOutButton() {
 
 function logOutUser(event) {
     event.preventDefault();
-    localStorage.setItem("is_logged_in", JSON.stringify(false));
     localStorage.setItem("username", "");
+    localStorage.setItem("user_id", "");
     window.location.href = "/";
 }
 

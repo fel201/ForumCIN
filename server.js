@@ -4,6 +4,7 @@ import path from 'path'
 import ejs from 'ejs'
 import api_routes from './routes/api_routes.js';
 import web_page_routes from './routes/web_routes.js';
+import cookieParser from 'cookie-parser';
 // WTF DOES THIS DO?
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,7 @@ export default class Server {
         // wtf does this do?
         this.app.use(express.static(path.join(__dirname, 'views')));
         this.app.use(express.urlencoded({ extended: true }), express.json());
-
+        this.app.use(cookieParser());
         this.app.use("/", web_page_routes);
         this.app.use("/api", api_routes);
     };
