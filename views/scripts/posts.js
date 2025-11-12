@@ -1,9 +1,11 @@
-function displayCreatePostButton() {
-    const is_logged_in = JSON.parse(localStorage.getItem("is_logged_in"));
-    if(!is_logged_in) {
-        const href_create_post = document.getElementById("href_create_post");
-        href_create_post.style.display = "none";
+function setCreatePostButtonHref() {
+    const user = localStorage.getItem("username");
+    const create_post_button = document.getElementById("href_create_post");
+    if(user == "" || user == null) {
+        create_post_button.setAttribute("href", "/sign-up");
+        return;
     }
+    create_post_button.setAttribute("href", "/create-post");
 };
 // anchor class = title -> class = postPreviewDiv
 function createPostAnchor(post_title, post_id, username) {
@@ -102,3 +104,4 @@ renderPostsPreviews()
         })
     })
 });
+setCreatePostButtonHref();

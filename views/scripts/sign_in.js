@@ -15,10 +15,11 @@ sign_in_form.addEventListener('submit', async (event) => {
                 password: password,
             })
         });
-        if (request.status == 404) {
-            return new Error('User not found: ' + request.status);
+        if (request.status > 299) {
+            return new Error('Error: ' + request.status);
         }
         const user_data = await request.json();
+        console.log(user_data);
         localStorage.setItem("username", user_data.username);
         localStorage.setItem("user_id", user_data.user_id);
     }
