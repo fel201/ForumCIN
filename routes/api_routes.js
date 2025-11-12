@@ -17,14 +17,18 @@ const pool = new Pool({
 router.post('/submissions/', async (req,res) => {
     console.log(req.cookies.sessionToken);
     const token = req.cookies.sessionToken
-    if (!tokenStatus(token)) {
+    const token_is_okay = await tokenStatus(token);
+
+    if (!token_is_okay) {
         console.log('token n autorizado xd');
         res.status(403).json({message: 'Unauthorized token'});
         return 1;
     }
+
     var title_string = req.body.title;
     var text_string = req.body.text;
     var post_user_id = req.body.user_id;
+
     console.log(title_string);
     console.log(text_string);
     console.log(post_user_id);
