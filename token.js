@@ -8,7 +8,7 @@ export async function createToken(username, user_id) {
     }
     const token = jwt.sign(payload, process.env.JWT_PRIVATE_KEY, {
         algorithm: 'HS256',
-        expiresIn: 60,
+        expiresIn: '5h',
     });
     console.log(token);
     return token;
