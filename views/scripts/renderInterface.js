@@ -17,11 +17,9 @@ fetch("/interface.html")
 
 function displayUser() {
     const user = localStorage.getItem('username');
-    if(user != "") {
+    if(user != "" && user != null) {
         const display_user_html = document.getElementById("displayUser");
-        const username = localStorage.getItem("username");
-        console.log(username);
-        display_user_html.innerHTML = "Welcome, " + username + "!";
+        display_user_html.innerHTML = "Welcome, " + user + "!";
         return true;
     }
     else {
