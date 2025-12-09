@@ -7,11 +7,7 @@ import { tokenStatus } from '../token.js';
 const { Pool } = pg;
 const router = express.Router();
 const pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
+    connectionString: process.env.DB_URL
 });
 
 router.post('/submissions/', async (req,res) => {
